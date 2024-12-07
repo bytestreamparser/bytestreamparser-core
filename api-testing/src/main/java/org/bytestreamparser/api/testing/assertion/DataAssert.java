@@ -1,4 +1,4 @@
-package org.bytestreamparser.api.data.testing;
+package org.bytestreamparser.api.testing.assertion;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

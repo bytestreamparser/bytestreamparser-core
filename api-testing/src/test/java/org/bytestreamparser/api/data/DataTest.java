@@ -1,10 +1,10 @@
 package org.bytestreamparser.api.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.bytestreamparser.api.data.testing.DataAssert.assertValue;
+import static org.bytestreamparser.api.testing.assertion.DataAssert.assertValue;
 
 import java.util.Set;
-import org.bytestreamparser.api.data.testing.TestData;
+import org.bytestreamparser.api.testing.data.TestData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

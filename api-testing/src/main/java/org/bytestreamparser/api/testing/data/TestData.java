@@ -1,4 +1,4 @@
-package org.bytestreamparser.api.data.testing;
+package org.bytestreamparser.api.testing.data;
 
 import java.util.LinkedHashMap;
 import java.util.Set;
