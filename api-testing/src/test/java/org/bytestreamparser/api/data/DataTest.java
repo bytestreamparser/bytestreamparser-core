@@ -8,7 +8,7 @@ import org.bytestreamparser.api.testing.data.TestData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DataTest {
+class DataTest {
   private static final String ID = "id";
   private TestData data;
 
