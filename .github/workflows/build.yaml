@@ -29,3 +29,17 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify --file pom.xml org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=bytestreamparser_bytestreamparser-core
+
+      - name: Upload coverage data
+        uses: codecov/codecov-action@v5
+        if: ${{ !cancelled() }}
+        with:
+          fail_ci_if_error: true
+          files: api-testing/target/jacoco.exec
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
