@@ -28,7 +28,7 @@ jobs:
       - name: Build with Maven
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify --file pom.xml org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=bytestreamparser_bytestreamparser-core
+        run: mvn clean verify
 
       - name: Upload coverage data
         uses: codecov/codecov-action@v5
@@ -43,3 +43,9 @@ jobs:
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: SonarQube
+        if: github.ref == 'refs/heads/main'
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
