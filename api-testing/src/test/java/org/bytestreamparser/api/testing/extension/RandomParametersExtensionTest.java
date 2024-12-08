@@ -78,26 +78,42 @@ class RandomParametersExtensionTest {
   }
 
   @SuppressWarnings("unused")
-  private void annotated(@Randomize int ignored) {}
+  private void annotated(@Randomize int ignored) {
+    throw new UnsupportedOperationException();
+  }
 
   @SuppressWarnings("unused")
-  private void annotated(@Randomize byte[] ignored) {}
+  private void annotated(@Randomize byte[] ignored) {
+    throw new UnsupportedOperationException();
+  }
 
   @SuppressWarnings("unused")
-  private void annotated(@Randomize String ignored) {}
+  private void annotated(@Randomize String ignored) {
+    throw new UnsupportedOperationException();
+  }
 
   @SuppressWarnings("unused")
-  private void annotated(@Randomize Void ignored) {}
+  private void annotated(@Randomize Void ignored) {
+    throw new UnsupportedOperationException();
+  }
 
   @SuppressWarnings("unused")
-  private void unannotated(int ignored) {}
+  private void unannotated(int ignored) {
+    throw new UnsupportedOperationException();
+  }
 
   @SuppressWarnings("unused")
-  private void unannotated(byte[] ignored) {}
+  private void unannotated(byte[] ignored) {
+    throw new UnsupportedOperationException();
+  }
 
   @SuppressWarnings("unused")
-  private void unannotated(String ignored) {}
+  private void unannotated(String ignored) {
+    throw new UnsupportedOperationException();
+  }
 
   @SuppressWarnings("unused")
-  private void unannotated(Void ignored) {}
+  private void unannotated(Void ignored) {
+    throw new UnsupportedOperationException();
+  }
 }
