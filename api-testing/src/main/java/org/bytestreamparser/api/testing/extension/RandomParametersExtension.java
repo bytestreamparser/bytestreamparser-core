@@ -33,8 +33,9 @@ public class RandomParametersExtension implements ParameterResolver {
 
   private static byte[] generateBytes(
       ParameterContext parameterContext, ExtensionContext extensionContext) {
+    Randomize annotation = parameterContext.getParameter().getAnnotation(Randomize.class);
     Random random = getRandom(extensionContext);
-    byte[] bytes = new byte[random.nextInt(Byte.MAX_VALUE)];
+    byte[] bytes = new byte[annotation.length()];
     random.nextBytes(bytes);
     return bytes;
   }
@@ -63,5 +64,7 @@ public class RandomParametersExtension implements ParameterResolver {
 
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.PARAMETER)
-  public @interface Randomize {}
+  public @interface Randomize {
+    int length() default 5;
+  }
 }
