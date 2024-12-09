@@ -19,6 +19,7 @@ public class RandomParametersExtension implements ParameterResolver {
       GENERATORS =
           Map.ofEntries(
               Map.entry(int.class, RandomParametersExtension::generateInt),
+              Map.entry(Integer.class, RandomParametersExtension::generateInt),
               Map.entry(byte[].class, RandomParametersExtension::generateBytes),
               Map.entry(String.class, RandomParametersExtension::generateString));
 

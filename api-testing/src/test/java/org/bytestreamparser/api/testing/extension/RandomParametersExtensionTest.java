@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
@@ -78,42 +79,52 @@ class RandomParametersExtensionTest {
   }
 
   @SuppressWarnings("unused")
-  private void annotated(@Randomize int ignored) {
-    throw new UnsupportedOperationException();
+  private void annotated(@Randomize int value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
   }
 
   @SuppressWarnings("unused")
-  private void annotated(@Randomize byte[] ignored) {
-    throw new UnsupportedOperationException();
+  private void annotated(@Randomize Integer value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
   }
 
   @SuppressWarnings("unused")
-  private void annotated(@Randomize String ignored) {
-    throw new UnsupportedOperationException();
+  private void annotated(@Randomize byte[] value) {
+    throw new UnsupportedOperationException(Arrays.toString(value));
   }
 
   @SuppressWarnings("unused")
-  private void annotated(@Randomize Void ignored) {
-    throw new UnsupportedOperationException();
+  private void annotated(@Randomize String value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
   }
 
   @SuppressWarnings("unused")
-  private void unannotated(int ignored) {
-    throw new UnsupportedOperationException();
+  private void annotated(@Randomize Void value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
   }
 
   @SuppressWarnings("unused")
-  private void unannotated(byte[] ignored) {
-    throw new UnsupportedOperationException();
+  private void unannotated(int value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
   }
 
   @SuppressWarnings("unused")
-  private void unannotated(String ignored) {
-    throw new UnsupportedOperationException();
+  private void unannotated(Integer value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
   }
 
   @SuppressWarnings("unused")
-  private void unannotated(Void ignored) {
-    throw new UnsupportedOperationException();
+  private void unannotated(byte[] value) {
+    throw new UnsupportedOperationException(Arrays.toString(value));
+  }
+
+  @SuppressWarnings("unused")
+  private void unannotated(String value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
+  }
+
+  @SuppressWarnings("unused")
+  private void unannotated(Void value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
   }
 }
