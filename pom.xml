@@ -17,9 +17,6 @@
         <revision>1.0.0-SNAPSHOT</revision>
         <sonar.organization>bytestreamparser</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>
-            ${maven.multiModuleProjectDirectory}/aggregate-report/target/site/jacoco-aggregate/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <licenses>
@@ -179,6 +176,13 @@
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -187,6 +191,5 @@
     <modules>
         <module>api</module>
         <module>api-testing</module>
-        <module>aggregate-report</module>
     </modules>
 </project>

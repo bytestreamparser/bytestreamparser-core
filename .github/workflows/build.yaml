@@ -35,7 +35,6 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           fail_ci_if_error: true
-          files: api-testing/target/jacoco.exec
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload test results to Codecov
