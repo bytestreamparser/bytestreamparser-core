@@ -6,3 +6,4 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=org.bytestreamparser%3Acore-bom&metric=bugs)](https://sonarcloud.io/summary/new_code?id=org.bytestreamparser%3Acore-bom)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=org.bytestreamparser%3Acore-bom&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=org.bytestreamparser%3Acore-bom)
 [![codecov](https://codecov.io/gh/bytestreamparser/bytestreamparser-core/graph/badge.svg?token=YFYM1CYDL3)](https://codecov.io/gh/bytestreamparser/bytestreamparser-core)
+[![GitHub License](https://img.shields.io/github/license/bytestreamparser/bytestreamparser-core)](LICENSE)
