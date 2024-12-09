@@ -22,18 +22,24 @@ public class RandomParametersExtension implements ParameterResolver {
               Map.entry(byte[].class, RandomParametersExtension::generateBytes),
               Map.entry(String.class, RandomParametersExtension::generateString));
 
+  private static Randomize getAnnotation(ParameterContext parameterContext) {
+    return parameterContext.getParameter().getAnnotation(Randomize.class);
+  }
+
   private static Random getRandom(ExtensionContext extensionContext) {
     return extensionContext.getRoot().getStore(GLOBAL).getOrComputeIfAbsent(Random.class);
   }
 
   private static int generateInt(
       ParameterContext parameterContext, ExtensionContext extensionContext) {
-    return getRandom(extensionContext).nextInt();
+    Randomize annotation = getAnnotation(parameterContext);
+    Random random = getRandom(extensionContext);
+    return random.nextInt(annotation.intMin(), annotation.intMax());
   }
 
   private static byte[] generateBytes(
       ParameterContext parameterContext, ExtensionContext extensionContext) {
-    Randomize annotation = parameterContext.getParameter().getAnnotation(Randomize.class);
+    Randomize annotation = getAnnotation(parameterContext);
     Random random = getRandom(extensionContext);
     byte[] bytes = new byte[annotation.length()];
     random.nextBytes(bytes);
@@ -65,6 +71,10 @@ public class RandomParametersExtension implements ParameterResolver {
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.PARAMETER)
   public @interface Randomize {
+    int intMin() default Integer.MIN_VALUE;
+
+    int intMax() default Integer.MAX_VALUE;
+
     int length() default 5;
   }
 }
