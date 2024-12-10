@@ -38,7 +38,15 @@ class BinaryParserTest {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     assertThatThrownBy(() -> parser.pack(value, output))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("bin: value must be of length 3, but was [2]");
+        .hasMessage("bin: value must be of length %d, but was [%d]", LENGTH, value.length);
+  }
+
+  @Test
+  void pack_oversize_data(@Randomize(length = LENGTH + 1) byte[] value) {
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    assertThatThrownBy(() -> parser.pack(value, output))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("bin: value must be of length %d, but was [%d]", LENGTH, value.length);
   }
 
   @Test
@@ -51,8 +59,11 @@ class BinaryParserTest {
 
   @Test
   void parse_insufficient_data(@Randomize(length = LENGTH - 1) byte[] value) {
-    assertThatThrownBy(() -> parser.parse(new ByteArrayInputStream(value)))
+    ByteArrayInputStream input = new ByteArrayInputStream(value);
+    assertThatThrownBy(() -> parser.parse(input))
         .isInstanceOf(EOFException.class)
-        .hasMessage("End of stream reached after reading 2 bytes, bytes expected [3]");
+        .hasMessage(
+            "End of stream reached after reading %d bytes, bytes expected [%d]",
+            value.length, LENGTH);
   }
 }

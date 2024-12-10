@@ -26,7 +26,7 @@ public class BinaryParser<P extends Data<P>> extends DataParser<P, byte[]> {
 
   @Override
   public void pack(byte[] value, OutputStream output) throws IOException {
-    check(length == value.length, ERROR_MESSAGE, getId(), length, value.length);
+    check(value.length == length, ERROR_MESSAGE, getId(), length, value.length);
     output.write(value);
   }
 
