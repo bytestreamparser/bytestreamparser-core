@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.BiFunction;
+import org.apache.commons.text.RandomStringGenerator;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
@@ -49,7 +50,16 @@ public class RandomParametersExtension implements ParameterResolver {
 
   private static String generateString(
       ParameterContext parameterContext, ExtensionContext extensionContext) {
-    return new String(generateBytes(parameterContext, extensionContext));
+    Randomize annotation = getAnnotation(parameterContext);
+    return RandomStringGenerator.builder()
+        .usingRandom(getRandom(extensionContext)::nextInt)
+        .filteredBy(codepoint -> singleChar(codepoint, annotation.regexp()))
+        .get()
+        .generate(annotation.length());
+  }
+
+  private static boolean singleChar(int codepoint, String regexp) {
+    return Character.toString(codepoint).matches(regexp);
   }
 
   @Override
@@ -72,10 +82,15 @@ public class RandomParametersExtension implements ParameterResolver {
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.PARAMETER)
   public @interface Randomize {
+    String ASCII_ALPHANUMERIC = "^\\w$";
+    String UTF8_ALPHANUMERIC = "^[\\pL\\pN]$";
+
     int intMin() default Integer.MIN_VALUE;
 
     int intMax() default Integer.MAX_VALUE;
 
     int length() default 5;
+
+    String regexp() default UTF8_ALPHANUMERIC;
   }
 }
