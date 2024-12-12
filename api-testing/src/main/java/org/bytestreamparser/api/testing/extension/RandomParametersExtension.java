@@ -7,7 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.function.BiFunction;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -49,7 +51,23 @@ public class RandomParametersExtension implements ParameterResolver {
 
   private static String generateString(
       ParameterContext parameterContext, ExtensionContext extensionContext) {
-    return new String(generateBytes(parameterContext, extensionContext));
+    Randomize annotation = getAnnotation(parameterContext);
+    Random random = getRandom(extensionContext);
+    Set<String> blocks = Set.of(annotation.unicodeBlocks());
+    StringBuilder builder = new StringBuilder(annotation.length());
+    random
+        .ints(Character.MIN_CODE_POINT, Character.MAX_CODE_POINT)
+        .filter(codepoint -> validCodePoint(codepoint, blocks))
+        .limit(annotation.length())
+        .forEach(builder::appendCodePoint);
+    return builder.toString();
+  }
+
+  private static boolean validCodePoint(int codepoint, Set<String> blocks) {
+    return Optional.ofNullable(Character.UnicodeBlock.of(codepoint))
+        .map(Character.Subset::toString)
+        .filter(blocks::contains)
+        .isPresent();
   }
 
   @Override
@@ -77,5 +95,7 @@ public class RandomParametersExtension implements ParameterResolver {
     int intMax() default Integer.MAX_VALUE;
 
     int length() default 5;
+
+    String[] unicodeBlocks() default {"BASIC_LATIN"};
   }
 }
