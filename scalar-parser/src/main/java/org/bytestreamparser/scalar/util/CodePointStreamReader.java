@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.MalformedInputException;
-import java.nio.charset.UnmappableCharacterException;
+import java.nio.charset.*;
 
 public class CodePointStreamReader {
   private final InputStream input;
@@ -33,22 +30,27 @@ public class CodePointStreamReader {
     }
   }
 
+  private static void handleCoderResult(CoderResult result) throws CharacterCodingException {
+    if (result.isMalformed()) {
+      throw new MalformedInputException(result.length());
+    } else if (result.isUnmappable()) {
+      throw new UnmappableCharacterException(result.length());
+    }
+  }
+
   public int read() throws IOException {
     ByteBuffer byteBuffer = ByteBuffer.allocate(maxBytesPerChar * 2);
     CharBuffer charBuffer = CharBuffer.allocate(2);
     int offset = 0;
     while (true) {
-      if (input.read(byteBuffer.array(), offset, 1) == -1) {
+      if (input.read(byteBuffer.array(), offset++, 1) == -1) {
         return -1;
       } else {
-        offset += 1;
         CoderResult result = decode(byteBuffer, offset, charBuffer);
         if (charBuffer.position() > 0) {
           return convertToCodePoint(charBuffer);
-        } else if (result.isMalformed()) {
-          throw new MalformedInputException(result.length());
-        } else if (result.isUnmappable()) {
-          throw new UnmappableCharacterException(result.length());
+        } else {
+          handleCoderResult(result);
         }
       }
     }
