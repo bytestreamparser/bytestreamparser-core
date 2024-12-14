@@ -24,6 +24,15 @@ public class CodePointStreamReader {
     return Character.toCodePoint((char) high, (char) low);
   }
 
+  private static int convertToCodePoint(CharBuffer charBuffer) {
+    char ch = charBuffer.flip().get();
+    if (Character.isSurrogate(ch)) {
+      return surrogatePair(ch, charBuffer.get());
+    } else {
+      return Character.codePointAt(new char[] {ch}, 0);
+    }
+  }
+
   public int read() throws IOException {
     ByteBuffer byteBuffer = ByteBuffer.allocate(maxBytesPerChar * 2);
     CharBuffer charBuffer = CharBuffer.allocate(2);
@@ -33,16 +42,9 @@ public class CodePointStreamReader {
         return -1;
       } else {
         offset += 1;
-        byteBuffer.limit(offset);
-        CoderResult result =
-            decoder.decode(byteBuffer, charBuffer, offset == byteBuffer.capacity());
+        CoderResult result = decode(byteBuffer, offset, charBuffer);
         if (charBuffer.position() > 0) {
-          char ch = charBuffer.flip().get();
-          if (Character.isSurrogate(ch)) {
-            return surrogatePair(ch, charBuffer.get());
-          } else {
-            return Character.codePointAt(new char[] {ch}, 0);
-          }
+          return convertToCodePoint(charBuffer);
         } else if (result.isMalformed()) {
           throw new MalformedInputException(result.length());
         } else if (result.isUnmappable()) {
@@ -50,5 +52,10 @@ public class CodePointStreamReader {
         }
       }
     }
+  }
+
+  private CoderResult decode(ByteBuffer byteBuffer, int offset, CharBuffer charBuffer) {
+    byteBuffer.limit(offset);
+    return decoder.decode(byteBuffer, charBuffer, offset == byteBuffer.capacity());
   }
 }
