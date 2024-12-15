@@ -89,6 +89,16 @@ class RandomParametersExtensionTest {
   }
 
   @SuppressWarnings("unused")
+  private void annotated(@Randomize long value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
+  }
+
+  @SuppressWarnings("unused")
+  private void annotated(@Randomize Long value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
+  }
+
+  @SuppressWarnings("unused")
   private void annotated(@Randomize byte[] value) {
     throw new UnsupportedOperationException(Arrays.toString(value));
   }
@@ -110,6 +120,16 @@ class RandomParametersExtensionTest {
 
   @SuppressWarnings("unused")
   private void unannotated(Integer value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
+  }
+
+  @SuppressWarnings("unused")
+  private void unannotated(long value) {
+    throw new UnsupportedOperationException(String.valueOf(value));
+  }
+
+  @SuppressWarnings("unused")
+  private void unannotated(Long value) {
     throw new UnsupportedOperationException(String.valueOf(value));
   }
 

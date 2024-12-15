@@ -22,6 +22,8 @@ public class RandomParametersExtension implements ParameterResolver {
           Map.ofEntries(
               Map.entry(int.class, RandomParametersExtension::generateInt),
               Map.entry(Integer.class, RandomParametersExtension::generateInt),
+              Map.entry(long.class, RandomParametersExtension::generateLong),
+              Map.entry(Long.class, RandomParametersExtension::generateLong),
               Map.entry(byte[].class, RandomParametersExtension::generateBytes),
               Map.entry(String.class, RandomParametersExtension::generateString));
 
@@ -38,6 +40,13 @@ public class RandomParametersExtension implements ParameterResolver {
     Randomize annotation = getAnnotation(parameterContext);
     Random random = getRandom(extensionContext);
     return random.nextInt(annotation.intMin(), annotation.intMax());
+  }
+
+  private static long generateLong(
+      ParameterContext parameterContext, ExtensionContext extensionContext) {
+    Randomize annotation = getAnnotation(parameterContext);
+    Random random = getRandom(extensionContext);
+    return random.nextLong(annotation.longMin(), annotation.longMax());
   }
 
   private static byte[] generateBytes(
@@ -93,6 +102,10 @@ public class RandomParametersExtension implements ParameterResolver {
     int intMin() default Integer.MIN_VALUE;
 
     int intMax() default Integer.MAX_VALUE;
+
+    long longMin() default Long.MIN_VALUE;
+
+    long longMax() default Long.MAX_VALUE;
 
     int length() default 5;
 
