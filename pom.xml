@@ -12,11 +12,12 @@
     <url>https://github.com/bytestreamparser/bytestreamparser-core</url>
 
     <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
         <revision>1.0.0-SNAPSHOT</revision>
-        <sonar.organization>bytestreamparser</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>bytestreamparser</sonar.organization>
     </properties>
 
     <licenses>
@@ -192,5 +193,6 @@
         <module>api</module>
         <module>api-testing</module>
         <module>scalar-parser</module>
+        <module>composite-parser</module>
     </modules>
 </project>
