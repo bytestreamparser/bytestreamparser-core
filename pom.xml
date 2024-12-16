@@ -38,13 +38,21 @@
     <scm>
         <connection>scm:git:git://github.com/bytestreamparser/bytestreamparser-core.git</connection>
         <developerConnection>scm:git:ssh://github.com:bytestreamparser/bytestreamparser-core.git</developerConnection>
-        <url>https://github.com/bytestreamparser/bytestreamparser-core</url>
+        <url>${project.url}</url>
     </scm>
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/bytestreamparser/bytestreamparser-core/issues</url>
+        <url>${project.url}/issues</url>
     </issueManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/bytestreamparser/bytestreamparser-core</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -69,6 +77,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -182,6 +191,18 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
