@@ -85,3 +85,7 @@ jobs:
               repo: context.repo.repo,
               body: 'Version `${{ steps.release.outputs.revision }}` is deployed!'
             })
+
+      - name: Release summary
+        run: |
+          echo "Version \`${{ steps.release.outputs.revision }}\` is deployed!" >> $GITHUB_STEP_SUMMARY
