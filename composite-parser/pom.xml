@@ -20,6 +20,11 @@
         </dependency>
         <dependency>
             <groupId>org.bytestreamparser</groupId>
+            <artifactId>scalar-parser</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bytestreamparser</groupId>
             <artifactId>api-testing</artifactId>
             <version>${revision}</version>
             <scope>test</scope>
