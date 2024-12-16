@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  checks: write
+  packages: write
+  pull-requests: write
+
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -50,3 +55,37 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+
+      - name: Set release variable (pull request)
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "SOURCE=PR${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+
+      - name: Set release variable (branch)
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "SOURCE=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Release
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./release.sh >> $GITHUB_OUTPUT
+
+      - name: Comment (pull request)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Version `${{ steps.release.outputs.revision }}` is deployed!'
+            })
+
+      - name: Release summary
+        run: |
+          echo "Version \`${{ steps.release.outputs.revision }}\` is deployed!" >> $GITHUB_STEP_SUMMARY
