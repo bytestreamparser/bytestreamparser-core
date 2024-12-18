@@ -8,7 +8,8 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
 
-    <name>core-bom</name>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>API and libraries for parsing byte streams</description>
     <url>https://github.com/bytestreamparser/bytestreamparser-core</url>
 
     <properties>
