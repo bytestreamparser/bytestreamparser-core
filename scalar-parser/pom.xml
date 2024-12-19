@@ -11,6 +11,15 @@
     </parent>
 
     <artifactId>scalar-parser</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Library of scalar parsers</description>
+    <url>https://github.com/bytestreamparser/bytestreamparser-core</url>
+
+    <scm>
+        <connection>scm:git:git://github.com/bytestreamparser/bytestreamparser-core.git</connection>
+        <developerConnection>scm:git:ssh://github.com:bytestreamparser/bytestreamparser-core.git</developerConnection>
+        <url>https://github.com/bytestreamparser/bytestreamparser-core</url>
+    </scm>
 
     <dependencies>
         <dependency>
