@@ -6,6 +6,6 @@ COMMIT="$(git rev-parse --short HEAD)"
 MAJOR="${MAJOR:-0}"
 REVISION="${REVISION:-$MAJOR.$SOURCE.$TIMESTAMP.$COMMIT}"
 
-mvn --define revision="$REVISION" --batch-mode clean deploy 1>&2
+mvn --define revision="$REVISION" --batch-mode "$@" clean deploy 1>&2
 
 echo "REVISION=$REVISION"
