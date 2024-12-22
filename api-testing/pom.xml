@@ -6,8 +6,9 @@
 
     <parent>
         <groupId>org.bytestreamparser</groupId>
-        <artifactId>core-bom</artifactId>
+        <artifactId>bytestreamparser-bom</artifactId>
         <version>${revision}</version>
+        <relativePath>../bytestreamparser-bom</relativePath>
     </parent>
 
     <artifactId>api-testing</artifactId>
