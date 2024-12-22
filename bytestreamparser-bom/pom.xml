@@ -15,6 +15,10 @@
     <packaging>pom</packaging>
     <url>https://github.com/bytestreamparser/bytestreamparser-core</url>
 
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
+
     <scm>
         <connection>scm:git:git://github.com/bytestreamparser/bytestreamparser-core.git</connection>
         <developerConnection>scm:git:ssh://github.com:bytestreamparser/bytestreamparser-core.git</developerConnection>

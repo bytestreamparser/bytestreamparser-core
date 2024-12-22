@@ -19,6 +19,7 @@
         <revision>1.0.0-SNAPSHOT</revision>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>bytestreamparser</sonar.organization>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <licenses>
