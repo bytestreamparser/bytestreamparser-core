@@ -31,7 +31,7 @@ public class RandomParametersExtension implements ParameterResolver {
     return parameterContext.getParameter().getAnnotation(Randomize.class);
   }
 
-  private static Random getRandom(ExtensionContext extensionContext) {
+  public static Random getRandom(ExtensionContext extensionContext) {
     return extensionContext.getRoot().getStore(GLOBAL).getOrComputeIfAbsent(Random.class);
   }
 

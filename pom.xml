@@ -55,6 +55,7 @@
             <url>https://maven.pkg.github.com/bytestreamparser/bytestreamparser-core</url>
         </repository>
     </distributionManagement>
+
     <build>
         <pluginManagement>
             <plugins>
