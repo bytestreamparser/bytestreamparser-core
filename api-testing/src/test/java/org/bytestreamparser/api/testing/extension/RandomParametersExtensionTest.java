@@ -8,6 +8,7 @@ import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
+import java.util.random.RandomGenerator;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,6 +80,11 @@ class RandomParametersExtensionTest {
   }
 
   @SuppressWarnings("unused")
+  private void annotated(@Randomize(seed = 0L) RandomGenerator generator) {
+    throw new UnsupportedOperationException(String.valueOf(generator));
+  }
+
+  @SuppressWarnings("unused")
   private void annotated(@Randomize int value) {
     throw new UnsupportedOperationException(String.valueOf(value));
   }
@@ -111,6 +117,11 @@ class RandomParametersExtensionTest {
   @SuppressWarnings("unused")
   private void annotated(@Randomize Void value) {
     throw new UnsupportedOperationException(String.valueOf(value));
+  }
+
+  @SuppressWarnings("unused")
+  private void unannotated(RandomGenerator generator) {
+    throw new UnsupportedOperationException(String.valueOf(generator));
   }
 
   @SuppressWarnings("unused")
