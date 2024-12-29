@@ -38,11 +38,11 @@ public class RandomParametersExtension implements ParameterResolver {
       ParameterContext parameterContext, ExtensionContext extensionContext) {
     Randomize annotation = getAnnotation(parameterContext);
     long seed = annotation.seed() == Long.MIN_VALUE ? System.nanoTime() : annotation.seed();
-    LOGGER.info(String.format("Using seed %d for %s", seed, getDescription(parameterContext)));
+    LOGGER.info(() -> String.format("Using seed %d for %s", seed, getContext(parameterContext)));
     return new Random(seed);
   }
 
-  private static String getDescription(ParameterContext parameterContext) {
+  private static String getContext(ParameterContext parameterContext) {
     Executable executable = parameterContext.getParameter().getDeclaringExecutable();
     return new StringJoiner("#")
         .add(executable.getDeclaringClass().getSimpleName())
