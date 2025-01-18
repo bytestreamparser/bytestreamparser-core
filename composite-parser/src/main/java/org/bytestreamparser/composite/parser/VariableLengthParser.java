@@ -9,16 +9,15 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import org.bytestreamparser.api.data.Data;
 import org.bytestreamparser.api.parser.DataParser;
-import org.bytestreamparser.scalar.parser.NumberParser;
 
 public class VariableLengthParser<P extends Data<P>, V> extends DataParser<P, V> {
-  private final NumberParser<?, Integer> lengthParser;
+  private final DataParser<?, Integer> lengthParser;
   private final Function<Integer, DataParser<?, V>> valueParserProvider;
   private final Function<V, Integer> lengthProvider;
 
   public VariableLengthParser(
       String id,
-      NumberParser<?, Integer> lengthParser,
+      DataParser<?, Integer> lengthParser,
       Function<Integer, DataParser<?, V>> valueParserProvider,
       Function<V, Integer> lengthProvider) {
     this(id, alwaysTrue(), lengthParser, valueParserProvider, lengthProvider);
@@ -27,7 +26,7 @@ public class VariableLengthParser<P extends Data<P>, V> extends DataParser<P, V>
   public VariableLengthParser(
       String id,
       Predicate<P> applicable,
-      NumberParser<?, Integer> lengthParser,
+      DataParser<?, Integer> lengthParser,
       Function<Integer, DataParser<?, V>> valueParserProvider,
       Function<V, Integer> lengthProvider) {
     super(id, applicable);
