@@ -1,35 +1,22 @@
 package org.bytestreamparser.composite.parser;
 
-import static org.bytestreamparser.api.util.Predicates.alwaysTrue;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import org.bytestreamparser.api.data.Data;
 import org.bytestreamparser.api.parser.DataParser;
 
-public class VariableLengthParser<P extends Data<P>, V> extends DataParser<P, V> {
-  private final DataParser<?, Integer> lengthParser;
-  private final Function<Integer, DataParser<?, V>> valueParserProvider;
+public class VariableLengthParser<V> extends DataParser<V> {
+  private final DataParser<Integer> lengthParser;
+  private final Function<Integer, DataParser<V>> valueParserProvider;
   private final Function<V, Integer> lengthProvider;
 
   public VariableLengthParser(
       String id,
-      DataParser<?, Integer> lengthParser,
-      Function<Integer, DataParser<?, V>> valueParserProvider,
+      DataParser<Integer> lengthParser,
+      Function<Integer, DataParser<V>> valueParserProvider,
       Function<V, Integer> lengthProvider) {
-    this(id, alwaysTrue(), lengthParser, valueParserProvider, lengthProvider);
-  }
-
-  public VariableLengthParser(
-      String id,
-      Predicate<P> applicable,
-      DataParser<?, Integer> lengthParser,
-      Function<Integer, DataParser<?, V>> valueParserProvider,
-      Function<V, Integer> lengthProvider) {
-    super(id, applicable);
+    super(id);
     this.lengthParser = lengthParser;
     this.valueParserProvider = valueParserProvider;
     this.lengthProvider = lengthProvider;

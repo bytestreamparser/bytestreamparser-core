@@ -7,7 +7,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import org.bytestreamparser.api.testing.data.TestData;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(RandomParametersExtension.class)
 class UnsignedShortParserTest {
-  private UnsignedShortParser<TestData> parser;
+  private UnsignedShortParser parser;
 
   private static int convert(byte[] value) {
     return ((int) value[0] & 0xFF) << 8 | value[1] & 0xFF;
@@ -24,7 +23,7 @@ class UnsignedShortParserTest {
 
   @BeforeEach
   void setUp() {
-    parser = new UnsignedShortParser<>("unsigned short");
+    parser = new UnsignedShortParser("unsigned short");
   }
 
   @Test

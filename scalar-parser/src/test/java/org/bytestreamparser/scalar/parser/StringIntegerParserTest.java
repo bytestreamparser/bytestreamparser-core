@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import org.bytestreamparser.api.testing.data.TestData;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +16,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @ExtendWith(RandomParametersExtension.class)
 class StringIntegerParserTest {
-  private static StringIntegerParser<TestData> createParser(String charset, int length, int radix) {
-    CharStringParser<TestData> stringParser =
-        new CharStringParser<>("str", length, Charset.forName(charset));
-    return new StringIntegerParser<>("str-int", stringParser, length, radix);
+  private static StringIntegerParser createParser(String charset, int length, int radix) {
+    CharStringParser stringParser = new CharStringParser("str", length, Charset.forName(charset));
+    return new StringIntegerParser("str-int", stringParser, length, radix);
   }
 
   @ParameterizedTest
@@ -33,7 +31,7 @@ class StringIntegerParserTest {
       throws IOException {
     String string = Integer.toString(value, radix);
     InputStream input = new ByteArrayInputStream(string.getBytes(charset));
-    StringIntegerParser<TestData> parser = createParser(charset, string.length(), radix);
+    StringIntegerParser parser = createParser(charset, string.length(), radix);
     assertThat(parser.parse(input)).isEqualTo(value);
   }
 
@@ -46,7 +44,7 @@ class StringIntegerParserTest {
       throws IOException {
     String value = Long.toString(Long.MAX_VALUE, radix);
     InputStream input = new ByteArrayInputStream(value.getBytes(charset));
-    StringIntegerParser<TestData> parser = createParser(charset, value.length(), radix);
+    StringIntegerParser parser = createParser(charset, value.length(), radix);
 
     assertThatThrownBy(() -> parser.parse(input))
         .isInstanceOf(NumberFormatException.class)
@@ -62,7 +60,7 @@ class StringIntegerParserTest {
       @Randomize(intMin = Character.MIN_RADIX, intMax = Character.MAX_RADIX + 1) int radix)
       throws IOException {
     String string = Integer.toString(value, radix);
-    StringIntegerParser<TestData> parser = createParser(charset, string.length(), radix);
+    StringIntegerParser parser = createParser(charset, string.length(), radix);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     parser.pack(value, output);
     assertThat(output.toByteArray()).isEqualTo(string.getBytes(charset));
@@ -74,7 +72,7 @@ class StringIntegerParserTest {
   void pack_too_large_number(
       String charset,
       @Randomize(intMin = Character.MIN_RADIX, intMax = Character.MAX_RADIX + 1) int radix) {
-    StringIntegerParser<TestData> parser = createParser(charset, 1, radix);
+    StringIntegerParser parser = createParser(charset, 1, radix);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     int value = Integer.MAX_VALUE;
     assertThatThrownBy(() -> parser.pack(value, output))

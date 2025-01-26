@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
-import org.bytestreamparser.api.testing.data.TestData;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +18,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class BinaryParserTest {
   private static final int LENGTH = 3;
   private static final String ID = "bin";
-  private BinaryParser<TestData> parser;
+  private BinaryParser parser;
 
   @BeforeEach
   void setUp() {
-    parser = new BinaryParser<>(ID, LENGTH);
+    parser = new BinaryParser(ID, LENGTH);
   }
 
   @Test

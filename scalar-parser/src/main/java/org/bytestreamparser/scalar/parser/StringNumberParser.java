@@ -3,15 +3,14 @@ package org.bytestreamparser.scalar.parser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.function.Predicate;
-import org.bytestreamparser.api.data.Data;
+import org.bytestreamparser.api.parser.DataParser;
 
-public abstract class StringNumberParser<P extends Data<P>, V extends Number>
-    extends NumberParser<P, V> {
-  private final StringParser<?> stringParser;
+public abstract class StringNumberParser<V extends Number>
+    extends org.bytestreamparser.api.parser.DataParser<V> {
+  private final DataParser<String> stringParser;
 
-  protected StringNumberParser(String id, Predicate<P> applicable, StringParser<?> stringParser) {
-    super(id, applicable);
+  protected StringNumberParser(String id, DataParser<String> stringParser) {
+    super(id);
     this.stringParser = stringParser;
   }
 

@@ -1,16 +1,16 @@
-package org.bytestreamparser.api.testing.assertion;
+package org.bytestreamparser.composite.assertion;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AbstractAssert;
-import org.bytestreamparser.api.data.Data;
+import org.bytestreamparser.composite.data.DataObject;
 
-public class DataAssert<T extends Data<T>> extends AbstractAssert<DataAssert<T>, T> {
+public class DataAssert<T extends DataObject<T>> extends AbstractAssert<DataAssert<T>, T> {
   public DataAssert(T actual) {
     super(actual, DataAssert.class);
   }
 
-  public static <T extends Data<T>> DataAssert<T> assertValue(T actual) {
+  public static <T extends DataObject<T>> DataAssert<T> assertValue(T actual) {
     return new DataAssert<>(actual);
   }
 

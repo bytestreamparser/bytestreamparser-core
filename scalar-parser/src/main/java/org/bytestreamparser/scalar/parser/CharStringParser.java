@@ -1,6 +1,5 @@
 package org.bytestreamparser.scalar.parser;
 
-import static org.bytestreamparser.api.util.Predicates.alwaysTrue;
 import static org.bytestreamparser.scalar.util.InputStreams.readFully;
 import static org.bytestreamparser.scalar.util.Preconditions.check;
 
@@ -10,21 +9,16 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
-import java.util.function.Predicate;
-import org.bytestreamparser.api.data.Data;
+import org.bytestreamparser.api.parser.DataParser;
 
-public class CharStringParser<P extends Data<P>> extends StringParser<P> {
+public class CharStringParser extends DataParser<String> {
   private static final String INVALID_LENGTH = "%s: value must be of length %d, but was [%d]";
   private static final String STREAM_CHECK = "%s: %s#markSupported() required to parse %s charset";
   private final int length;
   private final CharsetDecoder decoder;
 
   public CharStringParser(String id, int length, Charset charset) {
-    this(id, alwaysTrue(), length, charset);
-  }
-
-  public CharStringParser(String id, Predicate<P> applicable, int length, Charset charset) {
-    super(id, applicable);
+    super(id);
     this.length = length;
     decoder =
         charset

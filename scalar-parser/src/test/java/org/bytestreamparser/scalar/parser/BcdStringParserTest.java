@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.HexFormat;
-import org.bytestreamparser.api.testing.data.TestData;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ class BcdStringParserTest {
 
   @Test
   void pack(@Randomize(intMin = 0, intMax = 100) int value) throws IOException {
-    BcdStringParser<TestData> parser = new BcdStringParser<>("bcd", 2);
+    BcdStringParser parser = new BcdStringParser("bcd", 2);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     String bcdString = String.format("%02d", value);
     parser.pack(bcdString, output);
@@ -29,7 +28,7 @@ class BcdStringParserTest {
 
   @Test
   void pack_odd_length_value(@Randomize(intMin = 0, intMax = 1000) int value) throws IOException {
-    BcdStringParser<TestData> parser = new BcdStringParser<>("bcd", 3);
+    BcdStringParser parser = new BcdStringParser("bcd", 3);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     parser.pack(String.format("%03d", value), output);
     assertThat(output.toByteArray()).isEqualTo(HEX_FORMAT.parseHex(String.format("%04d", value)));
@@ -37,7 +36,7 @@ class BcdStringParserTest {
 
   @Test
   void pack_oversize_data(@Randomize(intMin = 0, intMax = 1000) int value) {
-    BcdStringParser<TestData> parser = new BcdStringParser<>("bcd", 2);
+    BcdStringParser parser = new BcdStringParser("bcd", 2);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     String data = String.format("%03d", value);
     assertThatThrownBy(() -> parser.pack(data, output))
@@ -47,7 +46,7 @@ class BcdStringParserTest {
 
   @Test
   void pack_invalid_bcd_string() {
-    BcdStringParser<TestData> parser = new BcdStringParser<>("bcd", 2);
+    BcdStringParser parser = new BcdStringParser("bcd", 2);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     assertThatThrownBy(() -> parser.pack("ABC", output))
         .isInstanceOf(IllegalArgumentException.class)
@@ -56,7 +55,7 @@ class BcdStringParserTest {
 
   @Test
   void parse(@Randomize(intMin = 0, intMax = 100) int value) throws IOException {
-    BcdStringParser<TestData> parser = new BcdStringParser<>("bcd", 2);
+    BcdStringParser parser = new BcdStringParser("bcd", 2);
     String bcdString = String.format("%02d", value);
     ByteArrayInputStream input = new ByteArrayInputStream(HEX_FORMAT.parseHex(bcdString));
     assertThat(parser.parse(input)).isEqualTo(bcdString);
@@ -64,7 +63,7 @@ class BcdStringParserTest {
 
   @Test
   void parse_odd_length_string(@Randomize(intMin = 0, intMax = 1000) int value) throws IOException {
-    BcdStringParser<TestData> parser = new BcdStringParser<>("bcd", 3);
+    BcdStringParser parser = new BcdStringParser("bcd", 3);
     String expected = String.format("%03d", value);
     ByteArrayInputStream input =
         new ByteArrayInputStream(HEX_FORMAT.parseHex(String.format("%04d", value)));
@@ -73,7 +72,7 @@ class BcdStringParserTest {
 
   @Test
   void parse_insufficient_data(@Randomize(intMin = 0, intMax = 100) int value) {
-    BcdStringParser<TestData> parser = new BcdStringParser<>("bcd", 3);
+    BcdStringParser parser = new BcdStringParser("bcd", 3);
     String bcdString = String.format("%02d", value);
     ByteArrayInputStream input = new ByteArrayInputStream(HEX_FORMAT.parseHex(bcdString));
     assertThatThrownBy(() -> parser.parse(input))
@@ -83,7 +82,7 @@ class BcdStringParserTest {
 
   @Test
   void parse_invalid_bcd_string() {
-    BcdStringParser<TestData> parser = new BcdStringParser<>("bcd", 3);
+    BcdStringParser parser = new BcdStringParser("bcd", 3);
     ByteArrayInputStream input = new ByteArrayInputStream(HEX_FORMAT.parseHex("0abc"));
     assertThatThrownBy(() -> parser.parse(input))
         .isInstanceOf(IllegalArgumentException.class)
