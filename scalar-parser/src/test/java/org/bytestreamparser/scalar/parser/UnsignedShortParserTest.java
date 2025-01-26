@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(RandomParametersExtension.class)
 class UnsignedShortParserTest {
+  private static final int UNSIGNED_SHORT_MAX = 0xFFFF;
   private UnsignedShortParser parser;
 
   private static int convert(byte[] value) {
@@ -34,7 +35,8 @@ class UnsignedShortParserTest {
   }
 
   @Test
-  void pack(@Randomize(intMin = 0, intMax = 0xFFFF) Integer value) throws IOException {
+  void pack(@Randomize(intMin = 0, intMax = UNSIGNED_SHORT_MAX + 1) Integer value)
+      throws IOException {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     parser.pack(value, output);
     byte[] expected = ByteBuffer.allocate(Short.BYTES).putShort(value.shortValue()).array();
@@ -42,18 +44,22 @@ class UnsignedShortParserTest {
   }
 
   @Test
-  void pack_throws_exception_if_too_large(@Randomize(intMin = 65536) int value) {
+  void pack_throws_exception_if_too_large(@Randomize(intMin = 1) int value) {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
-    assertThatThrownBy(() -> parser.pack(value, output))
+    assertThatThrownBy(() -> parser.pack(UNSIGNED_SHORT_MAX + value, output))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("unsigned short: value must be between 0 and 65535, but was [%d]", value);
+        .hasMessage(
+            "unsigned short: value must be between 0 and %d, but was [%d]",
+            UNSIGNED_SHORT_MAX, UNSIGNED_SHORT_MAX + value);
   }
 
   @Test
-  void pack_throws_exception_if_too_small(@Randomize(intMax = 0) int value) {
+  void pack_throws_exception_if_too_small(@Randomize(intMin = 1) int value) {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
-    assertThatThrownBy(() -> parser.pack(value, output))
+    assertThatThrownBy(() -> parser.pack(-value, output))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("unsigned short: value must be between 0 and 65535, but was [%d]", value);
+        .hasMessage(
+            "unsigned short: value must be between 0 and %d, but was [%d]",
+            UNSIGNED_SHORT_MAX, -value);
   }
 }

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(RandomParametersExtension.class)
 class UnsignedByteParserTest {
 
+  public static final int UNSIGNED_BYTE_MAX = 0xFF;
   private UnsignedByteParser parser;
 
   @BeforeEach
@@ -25,30 +26,34 @@ class UnsignedByteParserTest {
   @Test
   void parse(@Randomize byte[] value) throws IOException {
     ByteArrayInputStream input = new ByteArrayInputStream(value);
-    assertThat(parser.parse(input)).isEqualTo(value[0] & 0xFF);
+    assertThat(parser.parse(input)).isEqualTo(value[0] & UNSIGNED_BYTE_MAX);
     assertThat(input.available()).isPositive();
   }
 
   @Test
-  void pack(@Randomize(intMin = 0, intMax = 256) int value) throws IOException {
+  void pack(@Randomize(intMin = 0, intMax = UNSIGNED_BYTE_MAX + 1) int value) throws IOException {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     parser.pack(value, output);
     assertThat(output.toByteArray()).isEqualTo(new byte[] {(byte) value});
   }
 
   @Test
-  void pack_throws_exception_if_too_large(@Randomize(intMin = 256) int value) {
+  void pack_throws_exception_if_too_large(@Randomize(intMin = 1) int value) {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
-    assertThatThrownBy(() -> parser.pack(value, output))
+    assertThatThrownBy(() -> parser.pack(0xFF + value, output))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("unsigned byte: value must be between 0 and 255, but was [%d]", value);
+        .hasMessage(
+            "unsigned byte: value must be between 0 and %d, but was [%d]",
+            UNSIGNED_BYTE_MAX, UNSIGNED_BYTE_MAX + value);
   }
 
   @Test
-  void pack_throws_exception_if_too_small(@Randomize(intMax = 0) int value) {
+  void pack_throws_exception_if_too_small(@Randomize(intMin = 1) int value) {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
-    assertThatThrownBy(() -> parser.pack(value, output))
+    assertThatThrownBy(() -> parser.pack(-value, output))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("unsigned byte: value must be between 0 and 255, but was [%d]", value);
+        .hasMessage(
+            "unsigned byte: value must be between 0 and %d, but was [%d]",
+            UNSIGNED_BYTE_MAX, -value);
   }
 }
