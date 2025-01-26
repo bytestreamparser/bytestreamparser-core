@@ -1,10 +1,9 @@
-package org.bytestreamparser.api.data;
+package org.bytestreamparser.composite.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.bytestreamparser.api.testing.assertion.DataAssert.assertValue;
+import static org.bytestreamparser.composite.assertion.DataAssert.assertValue;
 
 import java.util.Set;
-import org.bytestreamparser.api.testing.data.TestData;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(RandomParametersExtension.class)
-class DataTest {
-  private TestData data;
+class DataMapTest {
+  private DataMap data;
 
   @BeforeEach
   void setUp() {
-    data = new TestData();
+    data = new DataMap();
   }
 
   @Test

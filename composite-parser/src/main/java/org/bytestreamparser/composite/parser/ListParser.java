@@ -1,25 +1,17 @@
 package org.bytestreamparser.composite.parser;
 
-import static org.bytestreamparser.api.util.Predicates.alwaysTrue;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Predicate;
-import org.bytestreamparser.api.data.Data;
 import org.bytestreamparser.api.parser.DataParser;
 
-public class ListParser<P extends Data<P>, V> extends DataParser<P, List<V>> {
-  private final DataParser<?, V> itemParser;
+public class ListParser<V> extends DataParser<List<V>> {
+  private final DataParser<V> itemParser;
 
-  public ListParser(String id, DataParser<?, V> itemParser) {
-    this(id, alwaysTrue(), itemParser);
-  }
-
-  public ListParser(String id, Predicate<P> applicable, DataParser<?, V> itemParser) {
-    super(id, applicable);
+  public ListParser(String id, DataParser<V> itemParser) {
+    super(id);
     this.itemParser = itemParser;
   }
 

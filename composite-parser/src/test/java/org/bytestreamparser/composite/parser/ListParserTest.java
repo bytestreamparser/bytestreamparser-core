@@ -7,7 +7,6 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.List;
-import org.bytestreamparser.api.testing.data.TestData;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.bytestreamparser.scalar.parser.CharStringParser;
@@ -17,9 +16,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @ExtendWith(RandomParametersExtension.class)
 class ListParserTest {
-  private static ListParser<TestData, String> listParser(String charset, int length) {
-    CharStringParser<TestData> stringParser =
-        new CharStringParser<>("item", length, Charset.forName(charset));
+  private static ListParser<String> listParser(String charset, int length) {
+    CharStringParser stringParser = new CharStringParser("item", length, Charset.forName(charset));
     return new ListParser<>("list", stringParser);
   }
 
@@ -27,7 +25,7 @@ class ListParserTest {
   @ValueSource(
       strings = {"US-ASCII", "IBM1047", "ISO-8859-1", "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE"})
   void pack(String charset, @Randomize String value1, @Randomize String value2) throws IOException {
-    ListParser<TestData, String> parser = listParser(charset, value1.length());
+    ListParser<String> parser = listParser(charset, value1.length());
 
     byte[] bytes1 = value1.getBytes(charset);
     byte[] bytes2 = value2.getBytes(charset);
@@ -43,7 +41,7 @@ class ListParserTest {
   @ValueSource(
       strings = {"US-ASCII", "IBM1047", "ISO-8859-1", "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE"})
   void pack_incompatible_values(String charset) {
-    ListParser<TestData, String> parser = listParser(charset, 5);
+    ListParser<String> parser = listParser(charset, 5);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     List<String> values = List.of("12345", "abc");
     assertThatThrownBy(() -> parser.pack(values, output))
@@ -56,7 +54,7 @@ class ListParserTest {
       strings = {"US-ASCII", "IBM1047", "ISO-8859-1", "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE"})
   void parse(String charset, @Randomize String value1, @Randomize String value2)
       throws IOException {
-    ListParser<TestData, String> parser = listParser(charset, value1.length());
+    ListParser<String> parser = listParser(charset, value1.length());
     List<String> parsed =
         parser.parse(new ByteArrayInputStream((value1 + value2).getBytes(charset)));
     assertThat(parsed).isEqualTo(List.of(value1, value2));
@@ -67,7 +65,7 @@ class ListParserTest {
       strings = {"US-ASCII", "IBM1047", "ISO-8859-1", "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE"})
   void parse_insufficient_data(String charset, @Randomize(length = 4) String value)
       throws UnsupportedEncodingException {
-    ListParser<TestData, String> parser = listParser(charset, 5);
+    ListParser<String> parser = listParser(charset, 5);
     ByteArrayInputStream input = new ByteArrayInputStream(value.getBytes(charset));
     assertThatThrownBy(() -> parser.parse(input))
         .isInstanceOf(EOFException.class)

@@ -8,11 +8,9 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.function.Function;
 import org.bytestreamparser.api.parser.DataParser;
-import org.bytestreamparser.api.testing.data.TestData;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.bytestreamparser.scalar.parser.CharStringParser;
-import org.bytestreamparser.scalar.parser.NumberParser;
 import org.bytestreamparser.scalar.parser.UnsignedByteParser;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,15 +18,15 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @ExtendWith(RandomParametersExtension.class)
 class VariableLengthParserTest {
-  private static NumberParser<TestData, Integer> lengthParser() {
-    return new UnsignedByteParser<>("length");
+  private static DataParser<Integer> lengthParser() {
+    return new UnsignedByteParser("length");
   }
 
-  private static Function<Integer, DataParser<?, String>> contentParser(String charset) {
-    return length -> new CharStringParser<>("content", length, Charset.forName(charset));
+  private static Function<Integer, DataParser<String>> contentParser(String charset) {
+    return length -> new CharStringParser("content", length, Charset.forName(charset));
   }
 
-  private static VariableLengthParser<TestData, String> varParser(String charset) {
+  private static VariableLengthParser<String> varParser(String charset) {
     return new VariableLengthParser<>(
         "var",
         lengthParser(),
@@ -50,7 +48,7 @@ class VariableLengthParserTest {
   @ValueSource(
       strings = {"US-ASCII", "IBM1047", "ISO-8859-1", "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE"})
   void pack_dynamic_length(String charset, @Randomize String value) throws IOException {
-    VariableLengthParser<TestData, String> parser = varParser(charset);
+    VariableLengthParser<String> parser = varParser(charset);
     int codePoints = Math.toIntExact(value.codePoints().count());
 
     for (int length = 1; length < codePoints; length++) {
@@ -68,7 +66,7 @@ class VariableLengthParserTest {
   @ValueSource(
       strings = {"US-ASCII", "IBM1047", "ISO-8859-1", "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE"})
   void parse_dynamic_length(String charset, @Randomize String value) throws IOException {
-    VariableLengthParser<TestData, String> parser = varParser(charset);
+    VariableLengthParser<String> parser = varParser(charset);
     int codePoints = Math.toIntExact(value.codePoints().count());
 
     for (int length = 0; length < codePoints; length++) {

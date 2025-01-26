@@ -1,6 +1,5 @@
 package org.bytestreamparser.scalar.parser;
 
-import static org.bytestreamparser.api.util.Predicates.alwaysTrue;
 import static org.bytestreamparser.scalar.util.InputStreams.readFully;
 import static org.bytestreamparser.scalar.util.Preconditions.check;
 
@@ -8,22 +7,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HexFormat;
-import java.util.function.Predicate;
-import org.bytestreamparser.api.data.Data;
+import org.bytestreamparser.api.parser.DataParser;
 import org.bytestreamparser.scalar.util.Strings;
 
-public class HexStringParser<P extends Data<P>> extends StringParser<P> {
+public class HexStringParser extends DataParser<String> {
   private static final String ERROR_MESSAGE =
       "%s: value length must be less than or equal to %d, but was [%d]";
   private static final HexFormat HEX_FORMAT = HexFormat.of();
   private final int length;
 
   public HexStringParser(String id, int length) {
-    this(id, alwaysTrue(), length);
-  }
-
-  public HexStringParser(String id, Predicate<P> applicable, int length) {
-    super(id, applicable);
+    super(id);
     this.length = length;
   }
 

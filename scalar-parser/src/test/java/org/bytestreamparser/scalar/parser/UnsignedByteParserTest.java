@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import org.bytestreamparser.api.testing.data.TestData;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,11 +15,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(RandomParametersExtension.class)
 class UnsignedByteParserTest {
 
-  private UnsignedByteParser<TestData> parser;
+  private UnsignedByteParser parser;
 
   @BeforeEach
   void setUp() {
-    parser = new UnsignedByteParser<>("unsigned byte");
+    parser = new UnsignedByteParser("unsigned byte");
   }
 
   @Test
