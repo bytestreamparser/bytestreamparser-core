@@ -10,10 +10,10 @@ import org.bytestreamparser.composite.data.DataObject;
 
 public class ObjectParser<V extends DataObject<V>> extends DataParser<V> {
   private final Supplier<V> instanceSupplier;
-  private final List<DataFieldParser<V, ?>> fieldParsers;
+  private final List<? extends DataFieldParser<V, ?>> fieldParsers;
 
   public ObjectParser(
-      String id, Supplier<V> instanceSupplier, List<DataFieldParser<V, ?>> fieldParsers) {
+      String id, Supplier<V> instanceSupplier, List<? extends DataFieldParser<V, ?>> fieldParsers) {
     super(id);
     this.instanceSupplier = instanceSupplier;
     this.fieldParsers = fieldParsers;
