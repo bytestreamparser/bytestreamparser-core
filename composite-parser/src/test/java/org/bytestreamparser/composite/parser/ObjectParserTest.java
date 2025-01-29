@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import org.bytestreamparser.api.parser.DataParser;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension;
 import org.bytestreamparser.api.testing.extension.RandomParametersExtension.Randomize;
-import org.bytestreamparser.composite.data.DataMap;
+import org.bytestreamparser.composite.data.TestDataObject;
 import org.bytestreamparser.scalar.parser.BinaryParser;
 import org.bytestreamparser.scalar.parser.CharStringParser;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,18 +33,18 @@ class ObjectParserTest {
     return new BinaryParser(F2, length);
   }
 
-  private static <V> DataFieldParser<DataMap, V> dataFieldParser(DataParser<V> parser) {
+  private static <V> DataFieldParser<TestDataObject, V> dataFieldParser(DataParser<V> parser) {
     return new DataFieldParser<>(parser.getId(), parser);
   }
 
-  private static <V> DataFieldParser<DataMap, V> dataFieldParser(
-      DataParser<V> parser, Predicate<DataMap> applicable) {
+  private static <V> DataFieldParser<TestDataObject, V> dataFieldParser(
+      DataParser<V> parser, Predicate<TestDataObject> applicable) {
     return new DataFieldParser<>(parser.getId(), parser, applicable);
   }
 
-  private static ObjectParser<DataMap> objectParser(
-      DataFieldParser<DataMap, ?> parser1, DataFieldParser<DataMap, ?> parser2) {
-    return new ObjectParser<>("object", DataMap::new, List.of(parser1, parser2));
+  private static ObjectParser<TestDataObject> objectParser(
+      DataFieldParser<TestDataObject, ?> parser1, DataFieldParser<TestDataObject, ?> parser2) {
+    return new ObjectParser<>("object", TestDataObject::new, List.of(parser1, parser2));
   }
 
   @ParameterizedTest
@@ -52,12 +52,12 @@ class ObjectParserTest {
       strings = {"US-ASCII", "IBM1047", "ISO-8859-1", "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE"})
   void pack(String charset, @Randomize(length = 3) String f1, @Randomize(length = 6) byte[] f2)
       throws IOException {
-    DataFieldParser<DataMap, String> parser1 =
+    DataFieldParser<TestDataObject, String> parser1 =
         dataFieldParser(stringParser(charset, (int) f1.codePoints().count()));
-    DataFieldParser<DataMap, byte[]> parser2 = dataFieldParser(binaryParser(f2.length));
-    ObjectParser<DataMap> objectParser = objectParser(parser1, parser2);
+    DataFieldParser<TestDataObject, byte[]> parser2 = dataFieldParser(binaryParser(f2.length));
+    ObjectParser<TestDataObject> objectParser = objectParser(parser1, parser2);
 
-    DataMap value = new DataMap();
+    TestDataObject value = new TestDataObject();
     value.set(F1, f1).set(F2, f2);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     objectParser.pack(value, output);
@@ -77,11 +77,11 @@ class ObjectParserTest {
       throws IOException {
     CharStringParser stringParser =
         new CharStringParser(F1, (int) f1.codePoints().count(), Charset.forName(charset));
-    DataFieldParser<DataMap, String> parser1 = dataFieldParser(stringParser, d -> false);
-    DataFieldParser<DataMap, byte[]> parser2 = dataFieldParser(binaryParser(f2.length));
-    ObjectParser<DataMap> objectParser = objectParser(parser1, parser2);
+    DataFieldParser<TestDataObject, String> parser1 = dataFieldParser(stringParser, d -> false);
+    DataFieldParser<TestDataObject, byte[]> parser2 = dataFieldParser(binaryParser(f2.length));
+    ObjectParser<TestDataObject> objectParser = objectParser(parser1, parser2);
 
-    DataMap value = new DataMap();
+    TestDataObject value = new TestDataObject();
     value.set(F1, f1).set(F2, f2);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     objectParser.pack(value, output);
@@ -93,17 +93,17 @@ class ObjectParserTest {
       strings = {"US-ASCII", "IBM1047", "ISO-8859-1", "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE"})
   void parse(String charset, @Randomize(length = 3) String f1, @Randomize(length = 6) byte[] f2)
       throws IOException {
-    DataFieldParser<DataMap, String> parser1 =
+    DataFieldParser<TestDataObject, String> parser1 =
         dataFieldParser(stringParser(charset, (int) f1.codePoints().count()));
-    DataFieldParser<DataMap, byte[]> parser2 = dataFieldParser(binaryParser(f2.length));
-    ObjectParser<DataMap> objectParser = objectParser(parser1, parser2);
+    DataFieldParser<TestDataObject, byte[]> parser2 = dataFieldParser(binaryParser(f2.length));
+    ObjectParser<TestDataObject> objectParser = objectParser(parser1, parser2);
 
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     parser1.pack(f1, output);
     parser2.pack(f2, output);
     ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
 
-    DataMap parsed = objectParser.parse(input);
+    TestDataObject parsed = objectParser.parse(input);
     assertValue(parsed).hasValue(F1, f1).hasValue(F2, f2);
   }
 
@@ -113,18 +113,18 @@ class ObjectParserTest {
   void parse_when_inapplicable(
       String charset, @Randomize(length = 3) String f1, @Randomize(length = 6) byte[] f2)
       throws IOException {
-    DataFieldParser<DataMap, String> parser1 =
+    DataFieldParser<TestDataObject, String> parser1 =
         dataFieldParser(stringParser(charset, (int) f1.codePoints().count()));
     DataParser<byte[]> binaryParser = binaryParser(f2.length);
-    DataFieldParser<DataMap, byte[]> parser2 = dataFieldParser(binaryParser, d -> false);
-    ObjectParser<DataMap> objectParser = objectParser(parser1, parser2);
+    DataFieldParser<TestDataObject, byte[]> parser2 = dataFieldParser(binaryParser, d -> false);
+    ObjectParser<TestDataObject> objectParser = objectParser(parser1, parser2);
 
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     parser1.pack(f1, output);
     parser2.pack(f2, output);
     ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
 
-    DataMap parsed = objectParser.parse(input);
+    TestDataObject parsed = objectParser.parse(input);
     assertValue(parsed).hasValue(F1, f1).hasValue(F2, null);
     assertThat(parsed.fields()).isEqualTo(Set.of(F1));
   }

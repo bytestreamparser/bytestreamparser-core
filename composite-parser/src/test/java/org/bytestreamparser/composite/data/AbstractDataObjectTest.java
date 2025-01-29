@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(RandomParametersExtension.class)
-class DataMapTest {
-  private DataMap data;
+class AbstractDataObjectTest {
+  private TestDataObject data;
 
   @BeforeEach
   void setUp() {
-    data = new DataMap();
+    data = new TestDataObject();
   }
 
   @Test

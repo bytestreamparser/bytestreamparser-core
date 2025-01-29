@@ -1,17 +1,12 @@
 package org.bytestreamparser.composite.data;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class DataMap implements DataObject<DataMap> {
+public abstract class AbstractDataObject<T extends AbstractDataObject<T>> implements DataObject<T> {
   private final Map<String, Object> fields;
 
-  public DataMap() {
-    this(new HashMap<>());
-  }
-
-  public DataMap(Map<String, Object> fields) {
+  protected AbstractDataObject(Map<String, Object> fields) {
     this.fields = fields;
   }
 
@@ -27,14 +22,16 @@ public class DataMap implements DataObject<DataMap> {
   }
 
   @Override
-  public <V> DataMap set(String id, V value) {
+  @SuppressWarnings("unchecked")
+  public <V> T set(String id, V value) {
     fields.put(id, value);
-    return this;
+    return (T) this;
   }
 
   @Override
-  public DataMap clear(String id) {
+  @SuppressWarnings("unchecked")
+  public T clear(String id) {
     fields.remove(id);
-    return this;
+    return (T) this;
   }
 }
