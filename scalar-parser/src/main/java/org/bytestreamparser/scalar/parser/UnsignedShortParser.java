@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import org.bytestreamparser.api.parser.DataParser;
 
+/** A parser for parsing two consecutive bytes as unsigned {@link Integer} */
 public class UnsignedShortParser extends DataParser<Integer> {
   private static final String ERROR_MESSAGE = "%s: value must be between 0 and 65535, but was [%d]";
 

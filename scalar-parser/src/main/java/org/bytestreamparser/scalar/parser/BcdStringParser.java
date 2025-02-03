@@ -7,10 +7,22 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.regex.Pattern;
 
+/**
+ * A parser for fixed length BCD strings.
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/Binary-coded_decimal">Binary Coded Decimal</a>
+ */
 public class BcdStringParser extends HexStringParser {
   private static final Pattern BCD_STRING = Pattern.compile("^\\d+$");
   private static final String ERROR_MESSAGE = "%s: Invalid BCD String [%s]";
 
+  /**
+   * Creates a new BcdStringParser.
+   *
+   * @param id ID of the parser.
+   * @param length Length of the BCD string. Note it is the number of digits, not the number of
+   *     bytes.
+   */
   public BcdStringParser(String id, int length) {
     super(id, length);
   }

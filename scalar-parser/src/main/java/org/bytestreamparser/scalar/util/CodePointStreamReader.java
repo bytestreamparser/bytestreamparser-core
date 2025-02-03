@@ -6,6 +6,12 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.*;
 
+/**
+ * A class for reading code points from an {@link InputStream} using a {@link CharsetDecoder}. This
+ * differs from {@link java.io.InputStreamReader} in that it reads a single code point at a time.
+ * Whereas {@link java.io.InputStreamReader} reads a large number of code points into a buffer
+ * regardless of the number of code points requested.
+ */
 public class CodePointStreamReader {
   private final InputStream input;
   private final CharsetDecoder decoder;
@@ -38,6 +44,13 @@ public class CodePointStreamReader {
     }
   }
 
+  /**
+   * Reads a single code point from the input stream. Note that a code point may consist of multiple
+   * bytes depending on the charset.
+   *
+   * @return The code point read from the input stream.
+   * @throws IOException If an I/O error occurs.
+   */
   public int read() throws IOException {
     ByteBuffer byteBuffer = ByteBuffer.allocate(maxBytesPerChar * 2);
     CharBuffer charBuffer = CharBuffer.allocate(2);
