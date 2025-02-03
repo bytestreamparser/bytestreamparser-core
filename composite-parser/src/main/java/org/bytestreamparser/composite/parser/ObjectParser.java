@@ -8,10 +8,22 @@ import java.util.function.Supplier;
 import org.bytestreamparser.api.parser.DataParser;
 import org.bytestreamparser.composite.data.DataObject;
 
+/**
+ * A parser for a data object.
+ *
+ * @param <V> the type of the data object.
+ */
 public class ObjectParser<V extends DataObject<V>> extends DataParser<V> {
   private final Supplier<V> instanceSupplier;
   private final List<? extends DataFieldParser<V, ?>> fieldParsers;
 
+  /**
+   * Creates a new ObjectParser.
+   *
+   * @param id the ID of the parser.
+   * @param instanceSupplier a supplier for creating new instances of the data object.
+   * @param fieldParsers the parsers for the fields of the data object.
+   */
   public ObjectParser(
       String id, Supplier<V> instanceSupplier, List<? extends DataFieldParser<V, ?>> fieldParsers) {
     super(id);

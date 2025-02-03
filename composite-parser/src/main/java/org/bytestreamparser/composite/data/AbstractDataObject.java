@@ -3,6 +3,11 @@ package org.bytestreamparser.composite.data;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Abstract implementation of the {@link DataObject} interface with {@link Map} backed fields.
+ *
+ * @param <T> the type of the data object.
+ */
 public abstract class AbstractDataObject<T extends AbstractDataObject<T>> implements DataObject<T> {
   private final Map<String, Object> fields;
 
