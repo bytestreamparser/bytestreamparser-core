@@ -5,8 +5,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import org.bytestreamparser.api.parser.DataParser;
 
-public abstract class StringNumberParser<V extends Number>
-    extends org.bytestreamparser.api.parser.DataParser<V> {
+/**
+ * Abstract class for fixed length {@link Number} parsers that pack and parse the value as a {@link
+ * String}.
+ *
+ * @param <V>
+ */
+public abstract class StringNumberParser<V extends Number> extends DataParser<V> {
   private final DataParser<String> stringParser;
 
   protected StringNumberParser(String id, DataParser<String> stringParser) {
@@ -24,7 +29,19 @@ public abstract class StringNumberParser<V extends Number>
     return toNumber(stringParser.parse(input));
   }
 
+  /**
+   * Converts the value to a {@link String}.
+   *
+   * @param value the value to be converted.
+   * @return the {@link String} representation of the value.
+   */
   protected abstract String fromNumber(V value);
 
+  /**
+   * Converts the value to a {@link V}.
+   *
+   * @param value the value to be converted.
+   * @return the {@link V} representation of the value.
+   */
   protected abstract V toNumber(String value);
 }

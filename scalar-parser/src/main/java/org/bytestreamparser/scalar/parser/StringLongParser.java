@@ -5,6 +5,7 @@ import static org.bytestreamparser.scalar.util.Preconditions.check;
 import org.bytestreamparser.api.parser.DataParser;
 import org.bytestreamparser.scalar.util.Strings;
 
+/** A {@link Long} implementation of {@link StringNumberParser<Long>}. */
 public class StringLongParser extends StringNumberParser<Long> {
   private static final String INVALID_LENGTH = "%s: value must be of length %d, but was [%d]";
   private final int length;

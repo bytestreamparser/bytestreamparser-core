@@ -6,8 +6,10 @@ import static org.bytestreamparser.scalar.util.Preconditions.check;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.bytestreamparser.api.parser.DataParser;
 
-public class UnsignedByteParser extends org.bytestreamparser.api.parser.DataParser<Integer> {
+/** A parser for parsing single byte as unsigned {@link Integer} */
+public class UnsignedByteParser extends DataParser<Integer> {
   private static final String ERROR_MESSAGE = "%s: value must be between 0 and 255, but was [%d]";
 
   public UnsignedByteParser(String id) {
