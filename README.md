@@ -9,3 +9,4 @@
 [![codecov](https://codecov.io/gh/bytestreamparser/bytestreamparser-core/graph/badge.svg?token=YFYM1CYDL3)](https://codecov.io/gh/bytestreamparser/bytestreamparser-core)
 [![GitHub License](https://img.shields.io/github/license/bytestreamparser/bytestreamparser-core)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/bytestreamparser/bytestreamparser-core)](https://github.com/bytestreamparser/bytestreamparser-core/releases)
+[![javadoc](https://javadoc.io/badge2/org.bytestreamparser/api/Javadoc.svg)](https://javadoc.io/doc/org.bytestreamparser/api) 
