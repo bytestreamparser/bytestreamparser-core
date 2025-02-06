@@ -9,4 +9,16 @@
 [![codecov](https://codecov.io/gh/bytestreamparser/bytestreamparser-core/graph/badge.svg?token=YFYM1CYDL3)](https://codecov.io/gh/bytestreamparser/bytestreamparser-core)
 [![GitHub License](https://img.shields.io/github/license/bytestreamparser/bytestreamparser-core)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/bytestreamparser/bytestreamparser-core)](https://github.com/bytestreamparser/bytestreamparser-core/releases)
-[![javadoc](https://javadoc.io/badge2/org.bytestreamparser/api/Javadoc.svg)](https://javadoc.io/doc/org.bytestreamparser/api) 
+[![javadoc](https://javadoc.io/badge2/org.bytestreamparser/api/Javadoc.svg)](https://javadoc.io/doc/org.bytestreamparser/api)
+
+## Description
+
+API and libraries for parsing byte streams.
+
+## Features
+
+* [api](api/README.md) - Base API for [DataParser](https://javadoc.io/doc/org.bytestreamparser/api/latest/org/bytestreamparser/api/parser/DataParser.html).
+
+## License
+
+[Apache-2.0](LICENSE)
