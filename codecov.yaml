@@ -6,25 +6,3 @@ coverage:
     patch:
       default:
         target: 100%
-
-component_management:
-  individual_components:
-    - component_id: api
-      name: api
-      paths:
-        - api/**
-
-    - component_id: api-testing
-      name: api-testing
-      paths:
-        - api-testing/**
-
-    - component_id: scalar
-      name: scalar
-      paths:
-        - scalar-parser/**
-
-    - component_id: composite
-      name: composite
-      paths:
-        - composite-parser/**
