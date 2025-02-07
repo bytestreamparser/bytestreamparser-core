@@ -310,7 +310,6 @@
                             <publishingServerId>central</publishingServerId>
                             <autoPublish>true</autoPublish>
                             <waitUntil>validated</waitUntil>
-                            <excludeArtifacts>core</excludeArtifacts>
                         </configuration>
                     </plugin>
                 </plugins>
