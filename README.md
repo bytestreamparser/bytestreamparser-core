@@ -17,8 +17,6 @@ API and libraries for parsing byte streams.
 
 ## Features
 
-* [api](api/README.md) - Base API for [DataParser](https://javadoc.io/doc/org.bytestreamparser/api/latest/org/bytestreamparser/api/parser/DataParser.html).
-
 ## License
 
 [Apache-2.0](LICENSE)
